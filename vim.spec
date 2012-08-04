@@ -214,6 +214,7 @@ Patch3004: vim-7.0-rclocation.patch
 Patch3006: vim-6.4-checkhl.patch
 Patch3009: vim-7.0-syncolor.patch
 Patch3010: vim-7.0-specedit.patch
+Patch3011: no_timestamp.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: ncurses-devel gettext
@@ -477,6 +478,7 @@ perl -pi -e "s,bin/nawk,bin/awk,g" runtime/tools/mve.awk
 %patch3006 -p1
 %patch3009 -p1
 %patch3010 -p1
+%patch3011 -p0
 
 cp -f %{SOURCE15} runtime/syntax/forth.vim
 cp -f %{SOURCE16} runtime/plugin/netrwPlugin.vim

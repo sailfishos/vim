@@ -1,3 +1,6 @@
+* Sat Aug 04 2012 Seppo Yliklaavu <seppo.yliklaavu@gmail.com> - 7.3.177
+- Fixes MER#143 : vim contains timestamps
+
 * Tue May 10 2011 Anas Nashif <anas.nashif@intel.com> - 7.3.177
 - Make /etc/virc work in minimal mode
 
