@@ -1,3 +1,7 @@
+* Sat Aug 09 2012 Lauri Kaila <lauri.kaila@gmail.com> - 7.3.629
+- Fixes MER#168: update to patch level 629
+- Make cumulative tarball and remove patches 1-177
+
 * Sat Aug 04 2012 Seppo Yliklaavu <seppo.yliklaavu@gmail.com> - 7.3.177
 - Fixes MER#143 : vim contains timestamps
 
