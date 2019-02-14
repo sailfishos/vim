@@ -106,6 +106,14 @@ Group: Applications/Editors
 This package provides some directories which are required by other
 packages that add vim files, p.e.  additional syntax files or filetypes.
 
+%package doc
+Summary:   Documentation for %{name}
+Group:     Documentation
+Requires:  %{name} = %{version}-%{release}
+
+%description doc
+Man pages for %{name}.
+
 
 %prep
 %setup -q -b 0 -n %{vimdir}
@@ -159,7 +167,7 @@ sed -i 's/-l\$with_tlib/-ltinfo -l\$with_tlib/g' auto/configure
   --disable-perlinterp  \
   --disable-pythoninterp 
 
-make VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir} %{?_smp_mflags}
+make VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir} %{?_smp_mflags}
 cp vim enhanced-vim
 make clean
 
@@ -174,7 +182,7 @@ perl -pi -e "s/\/etc\/vimrc/\/etc\/virc/"  os_unix.h
   --with-compiledby="<bugzilla@meego.com>" \
   --with-modified-by="<bugzilla@meego.com>"
 
-make VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir} %{?_smp_mflags}
+make VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir} %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -184,17 +192,16 @@ mkdir -p $RPM_BUILD_ROOT/%{_datadir}/%{name}/vimfiles/{after,autoload,colors,com
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/%{name}/vimfiles/after/{autoload,colors,compiler,doc,ftdetect,ftplugin,indent,keymap,lang,plugin,print,spell,syntax,tutor}
 cp -f %{SOURCE11} .
 cp -f %{SOURCE14} $RPM_BUILD_ROOT/%{_datadir}/%{name}/vimfiles/template.spec
-cp runtime/doc/uganda.txt LICENSE
 # Those aren't Linux info files but some binary files for Amiga:
 rm -f README*.info
 
 
 cd src
-make install DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir}
-make installgtutorbin  DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir}
+make install DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
+make installgtutorbin  DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
 mv $RPM_BUILD_ROOT/bin/xxd $RPM_BUILD_ROOT/%{_bindir}/xxd
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/{16x16,32x32,48x48,64x64}/apps
-install -m755 enhanced-vim $RPM_BUILD_ROOT/%{_bindir}/vim
+install -m755 enhanced-vim $RPM_BUILD_ROOT/%{_bindir}/%{name}
 
 ( cd $RPM_BUILD_ROOT
   mv ./bin/vimtutor ./%{_bindir}/vimtutor
@@ -207,7 +214,7 @@ install -m755 enhanced-vim $RPM_BUILD_ROOT/%{_bindir}/vim
   ln -sf vim ./%{_bindir}/ex
   ln -sf vim ./%{_bindir}/rvim
   ln -sf vim ./%{_bindir}/vimdiff
-  perl -pi -e "s,$RPM_BUILD_ROOT,," .%{_mandir}/man1/vim.1 .%{_mandir}/man1/vimtutor.1
+  perl -pi -e "s,$RPM_BUILD_ROOT,," .%{_mandir}/man1/%{name}.1 .%{_mandir}/man1/vimtutor.1
   rm -f .%{_mandir}/man1/rvim.1
   ln -sf vim.1.gz .%{_mandir}/man1/vi.1.gz
   ln -sf vim.1.gz .%{_mandir}/man1/rvi.1.gz
@@ -248,7 +255,7 @@ chmod 644 $RPM_BUILD_ROOT/%{_datadir}/%{name}/%{vimdir}/doc/vim2html.pl \
 chmod 644 ../runtime/doc/vim2html.pl
 
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
-cat >$RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/vim.sh <<EOF
+cat >$RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/%{name}.sh <<EOF
 if [ -n "\$BASH_VERSION" -o -n "\$KSH_VERSION" -o -n "\$ZSH_VERSION" ]; then
   [ -x /%{_bindir}/id ] || return
   [ \`/%{_bindir}/id -u\` -le 200 ] && return
@@ -277,11 +284,10 @@ vi-credits.txt	vi_help.txt	/*vi-credits*
 EOF
 LANG=C sort tags > tags.tmp; mv tags.tmp tags
  )
-(cd ../runtime; rm -rf doc; ln -svf ../../vim/%{vimdir}/doc docs;) 
-rm -f $RPM_BUILD_ROOT/%{_datadir}/vim/%{vimdir}/macros/maze/maze*.c
-rm -rf $RPM_BUILD_ROOT/%{_datadir}/vim/%{vimdir}/tools
-rm -rf $RPM_BUILD_ROOT/%{_datadir}/vim/%{vimdir}/doc/vim2html.pl
-rm -f $RPM_BUILD_ROOT/%{_datadir}/vim/%{vimdir}/tutor/tutor.gr.utf-8~
+rm -f $RPM_BUILD_ROOT/%{_datadir}/%{name}/%{vimdir}/macros/maze/maze*.c
+rm -rf $RPM_BUILD_ROOT/%{_datadir}/%{name}/%{vimdir}/tools
+rm -rf $RPM_BUILD_ROOT/%{_datadir}/%{name}/%{vimdir}/doc/vim2html.pl
+rm -f $RPM_BUILD_ROOT/%{_datadir}/%{name}/%{vimdir}/tutor/tutor.gr.utf-8~
 ( cd $RPM_BUILD_ROOT/%{_mandir}
   for i in `find ??/ -type f`; do
     bi=`basename $i`
@@ -305,17 +311,20 @@ done
 rm -rf %{buildroot}/bin/gvimtutor
 rm -rf %{buildroot}%{_bindir}/vimtutor
 
+mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
+        %{SOURCE11} README*
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files common
 %defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/vimrc
-%doc README* LICENSE
-%doc runtime/docs
-%doc Changelog.rpm
+%license runtime/doc/uganda.txt
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/vimfiles/template.spec
+%dir %{_datadir}/%{name}/%{vimdir}
 %{_datadir}/%{name}/%{vimdir}/autoload
 %{_datadir}/%{name}/%{vimdir}/colors
 %{_datadir}/%{name}/%{vimdir}/compiler
@@ -324,9 +333,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{vimdir}/ftplugin
 %{_datadir}/%{name}/%{vimdir}/indent
 %{_datadir}/%{name}/%{vimdir}/keymap
+%dir %{_datadir}/%{name}/%{vimdir}/lang
 %{_datadir}/%{name}/%{vimdir}/lang/*.vim
 %{_datadir}/%{name}/%{vimdir}/lang/*.txt
-%dir %{_datadir}/%{name}/%{vimdir}/lang
 %{_datadir}/%{name}/%{vimdir}/macros
 %{_datadir}/%{name}/%{vimdir}/plugin
 %{_datadir}/%{name}/%{vimdir}/print
@@ -362,18 +371,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_CN.UTF-8) %{_datadir}/%{name}/%{vimdir}/lang/zh_CN.UTF-8
 %lang(zh_TW.UTF-8) %{_datadir}/%{name}/%{vimdir}/lang/zh_TW.UTF-8
 /%{_bindir}/xxd
-%{_mandir}/man1/vim.*
-%{_mandir}/man1/ex.*
-%{_mandir}/man1/vi.*
-%{_mandir}/man1/view.*
-%{_mandir}/man1/rvi.*
-%{_mandir}/man1/rview.*
-%{_mandir}/man1/xxd.*
-%lang(fr) %{_mandir}/fr/man1/*
-%lang(it) %{_mandir}/it/man1/*
-%lang(pl) %{_mandir}/pl/man1/*
-%lang(ru) %{_mandir}/ru/man1/*
-
 
 %files minimal
 %defattr(-,root,root)
@@ -391,9 +388,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/vimdiff
 %{_bindir}/ex
 %config(noreplace) %{_sysconfdir}/profile.d/vim.*
-%{_mandir}/man1/vimdiff.*
-%{_mandir}/man1/vimtutor.*
-%{_mandir}/man1/evim.*
 
 %files filesystem
 %defattr(-,root,root)
@@ -415,3 +409,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/vimfiles/syntax
 %dir %{_datadir}/%{name}/vimfiles/tutor
 
+%files doc
+%defattr(-,root,root)
+%{_mandir}/man1/*
+%{_docdir}/%{name}-%{version}
+%lang(fr) %{_mandir}/fr/man1/*
+%lang(it) %{_mandir}/it/man1/*
+%lang(pl) %{_mandir}/pl/man1/*
+%lang(ru) %{_mandir}/ru/man1/*
