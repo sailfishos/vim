@@ -6,7 +6,7 @@ Summary: The VIM editor
 URL:     http://www.vim.org/
 Name: vim
 Version: %{baseversion}.%{patchlevel}
-Release: 1
+Release: 2
 License: Vim
 Group: Applications/Editors
 Source0: vim-%{baseversion}.%{patchlevel}.tar.bz2
