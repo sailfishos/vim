@@ -115,7 +115,7 @@ perl -pi -e "s,bin/nawk,bin/awk,g" runtime/tools/mve.awk
 %patch3006 -p1
 %patch3009 -p1
 #%patch3010 -p1
-%patch3011 -p0
+%patch3011 -p1
 
 %build
 cd src
