@@ -1,40 +1,26 @@
-%define baseversion 7.3
-%define vimdir vim73
-%define patchlevel 629
+%define baseversion 8.1
+%define vimdir vim81
+%define patchlevel 1244
 
 Summary: The VIM editor
 URL:     http://www.vim.org/
 Name: vim
 Version: %{baseversion}.%{patchlevel}
-Release: 2
+Release: 1
 License: Vim
 Group: Applications/Editors
 Source: %{name}-%{version}.tar.gz
 Source4: vimrc
 Source5: virc
-#Source5: ftp://ftp.vim.org/pub/vim/patches/README.patches
-Source11: Changelog.rpm
 Source12: vi_help.txt
 Source14: spec-template
-Source15: http://www.cvjb.de/comp/vim/forth.vim
-
-# remove this for the next major version, CVE fixes:
-Source16: ftp://ftp.vim.org/vol/2/vim/runtime/plugin/netrwPlugin.vim
-Source17: ftp://ftp.vim.org/vol/2/vim/runtime/plugin/gzip.vim
-Source18: ftp://ftp.vim.org/vol/2/vim/runtime/filetype.vim
-Source19: ftp://ftp.vim.org/vol/2/vim/runtime/autoload/zip.vim
-Source20: ftp://ftp.vim.org/vol/2/vim/runtime/autoload/tar.vim
-Source21: ftp://ftp.vim.org/vol/2/vim/runtime/autoload/netrwFileHandlers.vim
-Source22: ftp://ftp.vim.org/vol/2/vim/runtime/autoload/netrw.vim
-Source23: ftp://ftp.vim.org/vol/2/vim/runtime/autoload/netrwSettings.vim
 
 Patch2002: vim-7.0-fixkeys.patch
-Patch2003: vim-6.2-specsyntax.patch
-Patch2004: vim-7.0-crv.patch
+Patch2003: vim-7.4-specsyntax.patch
 
 Patch3004: vim-7.0-rclocation.patch
-Patch3006: vim-6.4-checkhl.patch
-Patch3009: vim-7.0-syncolor.patch
+Patch3006: vim-7.4-checkhl.patch
+Patch3009: vim-7.4-syncolor.patch
 Patch3010: vim-7.0-specedit.patch
 Patch3011: no_timestamp.patch
 
@@ -121,7 +107,6 @@ Man pages for %{name}.
 chmod -x runtime/tools/mve.awk
 %patch2002 -p1
 %patch2003 -p1
-%patch2004 -p1
 perl -pi -e "s,bin/nawk,bin/awk,g" runtime/tools/mve.awk
 
 # Base patches moved to cumulative tarball
@@ -131,16 +116,6 @@ perl -pi -e "s,bin/nawk,bin/awk,g" runtime/tools/mve.awk
 %patch3009 -p1
 %patch3010 -p1
 %patch3011 -p0
-
-cp -f %{SOURCE15} runtime/syntax/forth.vim
-cp -f %{SOURCE16} runtime/plugin/netrwPlugin.vim
-cp -f %{SOURCE17} runtime/plugin/gzip.vim
-cp -f %{SOURCE18} runtime/plugin/filetype.vim
-cp -f %{SOURCE19} runtime/autoload/zip.vim
-cp -f %{SOURCE20} runtime/autoload/tar.vim
-cp -f %{SOURCE21} runtime/autoload/netrwFileHandlers.vim
-cp -f %{SOURCE22} runtime/autoload/netrw.vim
-cp -f %{SOURCE23} runtime/autoload/netrwSettings.vim
 
 %build
 cd src
@@ -190,7 +165,6 @@ mkdir -p $RPM_BUILD_ROOT/bin
 mkdir -p $RPM_BUILD_ROOT/%{_bindir}
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/%{name}/vimfiles/{after,autoload,colors,compiler,doc,ftdetect,ftplugin,indent,keymap,lang,plugin,print,spell,syntax,tutor}
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/%{name}/vimfiles/after/{autoload,colors,compiler,doc,ftdetect,ftplugin,indent,keymap,lang,plugin,print,spell,syntax,tutor}
-cp -f %{SOURCE11} .
 cp -f %{SOURCE14} $RPM_BUILD_ROOT/%{_datadir}/%{name}/vimfiles/template.spec
 # Those aren't Linux info files but some binary files for Amiga:
 rm -f README*.info
@@ -313,7 +287,7 @@ rm -rf %{buildroot}%{_bindir}/vimtutor
 
 mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
-        %{SOURCE11} README*
+        README*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
