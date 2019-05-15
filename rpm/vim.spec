@@ -174,7 +174,6 @@ cd src
 make install DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
 make installgtutorbin  DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
 mv $RPM_BUILD_ROOT/bin/xxd $RPM_BUILD_ROOT/%{_bindir}/xxd
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/{16x16,32x32,48x48,64x64}/apps
 install -m755 enhanced-vim $RPM_BUILD_ROOT/%{_bindir}/%{name}
 
 ( cd $RPM_BUILD_ROOT
@@ -193,6 +192,7 @@ install -m755 enhanced-vim $RPM_BUILD_ROOT/%{_bindir}/%{name}
   ln -sf vim.1.gz .%{_mandir}/man1/vi.1.gz
   ln -sf vim.1.gz .%{_mandir}/man1/rvi.1.gz
   ln -sf vim.1.gz .%{_mandir}/man1/vimdiff.1.gz
+
   # ja_JP.ujis is obsolete, ja_JP.eucJP is recommended.
   ( cd ./%{_datadir}/%{name}/%{vimdir}/lang; \
     ln -sf menu_ja_jp.ujis.vim menu_ja_jp.eucjp.vim )
@@ -285,6 +285,12 @@ done
 rm -rf %{buildroot}/bin/gvimtutor
 rm -rf %{buildroot}%{_bindir}/vimtutor
 
+# Remove desktop files, we have no use for them.
+rm %{buildroot}/%{_datadir}/applications/gvim.desktop
+rm %{buildroot}/%{_datadir}/applications/vim.desktop
+# Remove icons, needed by desktop files
+rm -rf %{buildroot}/%{_datadir}/icons
+
 mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
         README*
@@ -299,6 +305,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/vimfiles/template.spec
 %dir %{_datadir}/%{name}/%{vimdir}
+%{_datadir}/%{name}/%{vimdir}/rgb.txt
 %{_datadir}/%{name}/%{vimdir}/autoload
 %{_datadir}/%{name}/%{vimdir}/colors
 %{_datadir}/%{name}/%{vimdir}/compiler
@@ -316,34 +323,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{vimdir}/syntax
 %{_datadir}/%{name}/%{vimdir}/tutor
 %{_datadir}/%{name}/%{vimdir}/spell
-%lang(af) %{_datadir}/%{name}/%{vimdir}/lang/af
-%lang(ca) %{_datadir}/%{name}/%{vimdir}/lang/ca
-%lang(cs) %{_datadir}/%{name}/%{vimdir}/lang/cs
-%lang(de) %{_datadir}/%{name}/%{vimdir}/lang/de
-%lang(en_GB) %{_datadir}/%{name}/%{vimdir}/lang/en_GB
-%lang(eo) %{_datadir}/%{name}/%{vimdir}/lang/eo
-%lang(es) %{_datadir}/%{name}/%{vimdir}/lang/es
-%lang(fi) %{_datadir}/%{name}/%{vimdir}/lang/fi
-%lang(fr) %{_datadir}/%{name}/%{vimdir}/lang/fr
-%lang(ga) %{_datadir}/%{name}/%{vimdir}/lang/ga
-%lang(it) %{_datadir}/%{name}/%{vimdir}/lang/it
-%lang(ja) %{_datadir}/%{name}/%{vimdir}/lang/ja
-%lang(ko) %{_datadir}/%{name}/%{vimdir}/lang/ko
-%lang(ko) %{_datadir}/%{name}/%{vimdir}/lang/ko.UTF-8
-%lang(nb) %{_datadir}/%{name}/%{vimdir}/lang/nb
-%lang(nl) %{_datadir}/%{name}/%{vimdir}/lang/nl
-%lang(no) %{_datadir}/%{name}/%{vimdir}/lang/no
-%lang(pl) %{_datadir}/%{name}/%{vimdir}/lang/pl
-%lang(pt_BR) %{_datadir}/%{name}/%{vimdir}/lang/pt_BR
-%lang(ru) %{_datadir}/%{name}/%{vimdir}/lang/ru
-%lang(sk) %{_datadir}/%{name}/%{vimdir}/lang/sk
-%lang(sv) %{_datadir}/%{name}/%{vimdir}/lang/sv
-%lang(uk) %{_datadir}/%{name}/%{vimdir}/lang/uk
-%lang(vi) %{_datadir}/%{name}/%{vimdir}/lang/vi
-%lang(zh_CN) %{_datadir}/%{name}/%{vimdir}/lang/zh_CN
-%lang(zh_TW) %{_datadir}/%{name}/%{vimdir}/lang/zh_TW
-%lang(zh_CN.UTF-8) %{_datadir}/%{name}/%{vimdir}/lang/zh_CN.UTF-8
-%lang(zh_TW.UTF-8) %{_datadir}/%{name}/%{vimdir}/lang/zh_TW.UTF-8
+%{_datadir}/%{name}/%{vimdir}/lang
+%{_datadir}/%{name}/%{vimdir}/pack
 /%{_bindir}/xxd
 
 %files minimal
@@ -387,7 +368,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_mandir}/man1/*
 %{_docdir}/%{name}-%{version}
+%lang(da) %{_mandir}/da/man1/*
+%lang(da) %{_mandir}/da.ISO8859-1/man1/*
+%lang(da) %{_mandir}/da.UTF-8/man1/*
+%lang(de) %{_mandir}/de/man1/*
+%lang(de) %{_mandir}/de.ISO8859-1/man1/*
+%lang(de) %{_mandir}/de.UTF-8/man1/*
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(it) %{_mandir}/it/man1/*
+%lang(ja) %{_mandir}/ja/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(ru) %{_mandir}/ru/man1/*
