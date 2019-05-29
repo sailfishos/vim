@@ -1,0 +1,38 @@
+diff --git a/src/version.c b/src/version.c
+index 30b94f3fd..13d84b1fa 100644
+--- a/src/version.c
++++ b/src/version.c
+@@ -31,10 +31,11 @@
+ char		*Version = VIM_VERSION_SHORT;
+ static char	*mediumVersion = VIM_VERSION_MEDIUM;
+ 
++#define DATE_REPLACEMENT "and built in OBS, see rpm -q --info packagename for more information"
++
+ #if defined(HAVE_DATE_TIME) || defined(PROTO)
+ # if (defined(VMS) && defined(VAXC)) || defined(PROTO)
+-char	longVersion[sizeof(VIM_VERSION_LONG_DATE) + sizeof(__DATE__)
+-						      + sizeof(__TIME__) + 3];
++char   longVersion[sizeof(VIM_VERSION_LONG_DATE) + sizeof(DATE_REPLACEMENT) + 2];
+ 
+     void
+ init_longVersion(void)
+@@ -44,9 +45,7 @@ init_longVersion(void)
+      * VAX C can't concatenate strings in the preprocessor.
+      */
+     strcpy(longVersion, VIM_VERSION_LONG_DATE);
+-    strcat(longVersion, __DATE__);
+-    strcat(longVersion, " ");
+-    strcat(longVersion, __TIME__);
++    strcat(longVersion, DATE_REPLACEMENT);
+     strcat(longVersion, ")");
+ }
+ 
+@@ -54,7 +53,7 @@ init_longVersion(void)
+     void
+ init_longVersion(void)
+ {
+-    char *date_time = __DATE__ " " __TIME__;
++    char *date_time = DATE_REPLACEMENT;
+     char *msg = _("%s (%s, compiled %s)");
+     size_t len = strlen(msg)
+ 		+ strlen(VIM_VERSION_LONG_ONLY)

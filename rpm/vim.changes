@@ -1,0 +1,40 @@
+* Fri Feb 08 2019 Tomi Leppänen <tomi.leppanen@jolla.com> - 7.3.629-2
+- [packaging] Add vim-doc subpackage. Contributes to JB#24119
+
+* Thu Aug 09 2012 Lauri Kaila <lauri.kaila@gmail.com> - 7.3.629
+- Fixes MER#168: update to patch level 629
+- Make cumulative tarball and remove patches 1-177
+
+* Sat Aug 04 2012 Seppo Yliklaavu <seppo.yliklaavu@gmail.com> - 7.3.177
+- Fixes MER#143 : vim contains timestamps
+
+* Tue May 10 2011 Anas Nashif <anas.nashif@intel.com> - 7.3.177
+- Make /etc/virc work in minimal mode
+
+* Sun May 08 2011 Anas Nashif <anas.nashif@intel.com> - 7.3.177
+- Update to 7.3.177
+
+* Fri Mar 26 2010 Anas Nashif <anas.nashif@intel.com> - 7.2.403
+- Remove Epoch
+
+* Sun Mar 21 2010 Anas Nashif <anas.nashif@intel.com> - 7.2.403
+- Update to patch level 403
+
+* Mon Dec 14 2009 Yi Yang <yi.y.yang@intel.com> 7.2.245
+- Fix configure error in case LD_AS_NEEDED is set
+
+* Mon Dec 14 2009 Yi Yang <yi.y.yang@intel.com> 7.2.245
+- Remove "unset LD_AS_NEEDED"
+
+* Tue Aug 25 2009 Austin Zhang <austin.zhang@intel.com> 7.2.245
+- Updated to vim 7.2 patch level 245 and added fedora bugfix#514717 
+  for fix moblin bug#5585
+
+* Thu May 7 2009 Arjan van de Ven <arjan@linux.intel.com>
+- vim is not ready for LD_AS_NEEDED
+
+* Sat Feb 14 2009 Anas Nashif <anas.nashif@intel.com> 7.2.088
+- Update to vim 7.2 patch level 88
+
+* Fri Sep 12 2008 vivian zhang <vivian.zhang@intel.com> 7.1.291
+- add %doc to man in spec file
