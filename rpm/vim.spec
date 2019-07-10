@@ -25,6 +25,7 @@ Patch3010: vim-7.0-specedit.patch
 Patch3011: no_timestamp.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Requires:  filesystem >= 3.2
 BuildRequires: ncurses-devel gettext
 BuildRequires: libacl-devel autoconf
 
@@ -140,7 +141,7 @@ sed -i 's/-l\$with_tlib/-ltinfo -l\$with_tlib/g' auto/configure
   --disable-selinux \
   --disable-rubyinterp \
   --disable-perlinterp  \
-  --disable-pythoninterp 
+  --disable-pythoninterp
 
 make VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir} %{?_smp_mflags}
 cp vim enhanced-vim
@@ -171,22 +172,22 @@ rm -f README*.info
 
 
 cd src
-make install DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
-make installgtutorbin  DESTDIR=$RPM_BUILD_ROOT BINDIR=/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
-mv $RPM_BUILD_ROOT/bin/xxd $RPM_BUILD_ROOT/%{_bindir}/xxd
+make install DESTDIR=$RPM_BUILD_ROOT BINDIR=/usr/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
+make installgtutorbin  DESTDIR=$RPM_BUILD_ROOT BINDIR=/usr/bin VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir}
+#mv $RPM_BUILD_ROOT/bin/xxd $RPM_BUILD_ROOT/%{_bindir}/xxd
 install -m755 enhanced-vim $RPM_BUILD_ROOT/%{_bindir}/%{name}
 
+
 ( cd $RPM_BUILD_ROOT
-  mv ./bin/vimtutor ./%{_bindir}/vimtutor
-  mv ./bin/vim ./bin/vi
-  rm -f ./bin/rvim
-  ln -sf vi ./bin/ex
-  ln -sf vi ./bin/rvi
-  ln -sf vi ./bin/rview
-  ln -sf vi ./bin/view
-  ln -sf vim ./%{_bindir}/ex
-  ln -sf vim ./%{_bindir}/rvim
-  ln -sf vim ./%{_bindir}/vimdiff
+  cp ./%{_bindir}/vim ./%{_bindir}/vi
+  rm -f .%{_bindir}/rvim
+  ln -sf vi .%{_bindir}/ex
+  ln -sf vi .%{_bindir}/rvi
+  ln -sf vi .%{_bindir}/rview
+  ln -sf vi .%{_bindir}/view
+  ln -sf vim .%{_bindir}/ex
+  ln -sf vim .%{_bindir}/rvim
+  ln -sf vim .%{_bindir}/vimdiff
   perl -pi -e "s,$RPM_BUILD_ROOT,," .%{_mandir}/man1/%{name}.1 .%{_mandir}/man1/vimtutor.1
   rm -f .%{_mandir}/man1/rvim.1
   ln -sf vim.1.gz .%{_mandir}/man1/vi.1.gz
@@ -325,16 +326,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{vimdir}/spell
 %{_datadir}/%{name}/%{vimdir}/lang
 %{_datadir}/%{name}/%{vimdir}/pack
-/%{_bindir}/xxd
+%{_bindir}/xxd
 
 %files minimal
 %defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/virc
-/bin/ex
-/bin/vi
-/bin/view
-/bin/rvi
-/bin/rview
+%{_bindir}/ex
+%{_bindir}/vi
+%{_bindir}/view
+%{_bindir}/rvi
+%{_bindir}/rview
 
 %files enhanced
 %defattr(-,root,root)
