@@ -1,9 +1,11 @@
---- vim70aa/src/term.c.orig	2006-03-01 23:07:55.000000000 +0100
-+++ vim70aa/src/term.c	2006-03-14 15:39:12.000000000 +0100
-@@ -1008,14 +1008,14 @@
+diff --git a/src/term.c b/src/term.c
+index b0ab7c634..77cfa7df7 100644
+--- a/src/term.c
++++ b/src/term.c
+@@ -957,14 +957,14 @@ static struct builtin_term builtin_termcaps[] =
      {K_XRIGHT,		IF_EB("\033[1;*C", ESC_STR "[1;*C")},
      {K_XLEFT,		IF_EB("\033[1;*D", ESC_STR "[1;*D")},
-     /* An extra set of function keys for vt100 mode */
+     // An extra set of function keys for vt100 mode
 -    {K_XF1,		IF_EB("\033O*P", ESC_STR "O*P")},
 -    {K_XF2,		IF_EB("\033O*Q", ESC_STR "O*Q")},
 -    {K_XF3,		IF_EB("\033O*R", ESC_STR "O*R")},
