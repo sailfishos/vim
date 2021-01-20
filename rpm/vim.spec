@@ -1,6 +1,6 @@
-%define baseversion 8.1
-%define vimdir vim81
-%define patchlevel 1244
+%define baseversion 8.2
+%define vimdir vim82
+%define patchlevel 0000
 
 Summary: The VIM editor
 URL:     http://www.vim.org/
@@ -8,7 +8,6 @@ Name: vim
 Version: %{baseversion}.%{patchlevel}
 Release: 1
 License: Vim
-Group: Applications/Editors
 Source: %{name}-%{version}.tar.gz
 Source4: vimrc
 Source5: virc
@@ -21,7 +20,6 @@ Patch2003: vim-7.4-specsyntax.patch
 Patch3004: vim-7.0-rclocation.patch
 Patch3006: vim-7.4-checkhl.patch
 Patch3009: vim-7.4-syncolor.patch
-Patch3010: vim-7.0-specedit.patch
 Patch3011: no_timestamp.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -36,7 +34,6 @@ multiple windows, multi-level undo, block highlighting and more.
 
 %package common
 Summary: The common files needed by any version of the VIM editor
-Group: Applications/Editors
 Requires: %{name}-filesystem
 
 %description common
@@ -52,7 +49,6 @@ to install the vim-common package.
 
 %package minimal
 Summary: A minimal version of the VIM editor
-Group: Applications/Editors
 Provides: vi = %{version}-%{release}
 
 %description minimal
@@ -67,7 +63,6 @@ package is installed.
 
 %package enhanced
 Summary: A version of the VIM editor which includes recent enhancements
-Group: Applications/Editors
 Requires: vim-common = %{version}-%{release} which
 Provides: vim = %{version}-%{release}
 
@@ -86,7 +81,6 @@ need to install the vim-common package.
 
 %package filesystem
 Summary: VIM filesystem layout
-Group: Applications/Editors
 
 %Description filesystem
 This package provides some directories which are required by other
@@ -94,7 +88,6 @@ packages that add vim files, p.e.  additional syntax files or filetypes.
 
 %package doc
 Summary:   Documentation for %{name}
-Group:     Documentation
 Requires:  %{name} = %{version}-%{release}
 
 %description doc
@@ -102,20 +95,11 @@ Man pages for %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{version}/upstream
+%autosetup -p1 -n %{name}-%{version}/upstream
 # fix rogue dependencies from sample code
 chmod -x runtime/tools/mve.awk
-%patch2002 -p1
-%patch2003 -p1
 perl -pi -e "s,bin/nawk,bin/awk,g" runtime/tools/mve.awk
 
-# Base patches moved to cumulative tarball
-
-%patch3004 -p1
-%patch3006 -p1
-%patch3009 -p1
-#%patch3010 -p1
-%patch3011 -p1
 
 %build
 cd src

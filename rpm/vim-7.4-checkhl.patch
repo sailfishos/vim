@@ -1,7 +1,8 @@
-diff -up vim74/runtime/syntax/spec.vim.kh1 vim74/runtime/syntax/spec.vim
---- vim74/runtime/syntax/spec.vim.kh1	2016-08-04 15:23:25.275955301 +0200
-+++ vim74/runtime/syntax/spec.vim	2016-08-04 15:24:56.699417602 +0200
-@@ -114,7 +114,7 @@ syn region specDescriptionArea matchgrou
+diff --git a/runtime/syntax/spec.vim b/runtime/syntax/spec.vim
+index f56a993ae..15f7d79dc 100644
+--- a/runtime/syntax/spec.vim
++++ b/runtime/syntax/spec.vim
+@@ -111,7 +111,7 @@ syn region specDescriptionArea matchgroup=specSection start='^%description' end=
  syn region specPackageArea matchgroup=specSection start='^%package' end='^%'me=e-1 contains=specPackageOpts,specPreAmble,specComment
  
  "%% Scripts Section %%
