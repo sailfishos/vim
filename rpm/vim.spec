@@ -313,6 +313,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files minimal
 %defattr(-,root,root)
+%license runtime/doc/uganda.txt
 %config(noreplace) %{_sysconfdir}/virc
 /bin/ex
 /bin/vi
