@@ -1,6 +1,6 @@
 %define baseversion 8.2
 %define vimdir vim82
-%define patchlevel 0000
+%define patchlevel 4127
 
 Summary: The VIM editor
 URL:     http://www.vim.org/
