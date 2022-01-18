@@ -1,8 +1,7 @@
-diff --git a/runtime/syntax/spec.vim b/runtime/syntax/spec.vim
-index 15f7d79dc..bcef63158 100644
---- a/runtime/syntax/spec.vim
-+++ b/runtime/syntax/spec.vim
-@@ -35,7 +35,7 @@ syn match specNoNumberHilite 'X11\|X11R6\|[a-zA-Z]*\.\d\|[a-zA-Z][-/]\d'
+diff -up vim74/runtime/syntax/spec.vim.highlite vim74/runtime/syntax/spec.vim
+--- vim74/runtime/syntax/spec.vim.highlite	2016-07-04 10:17:45.000000000 +0200
++++ vim74/runtime/syntax/spec.vim	2016-08-04 15:20:26.116049343 +0200
+@@ -38,7 +38,7 @@ syn match specNoNumberHilite 'X11\|X11R6
  syn match specManpageFile '[a-zA-Z]\.1'
  
  "Day, Month and most used license acronyms
@@ -11,7 +10,7 @@ index 15f7d79dc..bcef63158 100644
  syn keyword specWeekday contained Mon Tue Wed Thu Fri Sat Sun
  syn keyword specMonth   contained Jan Feb Mar Apr Jun Jul Aug Sep Oct Nov Dec
  syn keyword specMonth   contained January February March April May June July August September October November December
-@@ -58,9 +58,9 @@ syn cluster specListedFiles contains=specListedFilesBin,specListedFilesLib,specL
+@@ -61,9 +61,9 @@ syn cluster specListedFiles contains=spe
  
  "specComands
  syn match   specConfigure  contained '\./configure'
@@ -23,7 +22,7 @@ index 15f7d79dc..bcef63158 100644
  syn cluster specCommands contains=specCommand,specTarCommand,specConfigure,specCommandSpecial
  
  "frequently used rpm env vars
-@@ -102,7 +102,7 @@ syn case ignore
+@@ -105,7 +105,7 @@ syn case ignore
  "%% PreAmble Section %%
  "Copyright and Serial were deprecated by License and Epoch
  syn region specPreAmbleDeprecated oneline matchgroup=specError start='^\(Copyright\|Serial\)' end='$' contains=specEmail,specURL,specURLMacro,specLicense,specColon,specVariables,specSpecialChar,specMacroIdentifier

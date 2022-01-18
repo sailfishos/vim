@@ -18,11 +18,7 @@ Patch2002: vim-7.0-fixkeys.patch
 Patch2003: vim-7.4-specsyntax.patch
 
 Patch3004: vim-7.0-rclocation.patch
-Patch3006: vim-7.4-checkhl.patch
-Patch3009: vim-7.4-syncolor.patch
-Patch3011: no_timestamp.patch
 
-Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: ncurses-devel gettext
 BuildRequires: libacl-devel autoconf
 
@@ -34,6 +30,8 @@ multiple windows, multi-level undo, block highlighting and more.
 
 %package common
 Summary: The common files needed by any version of the VIM editor
+# shared files between common and minimal
+Requires: %{name}-data = %{version}-%{release}
 Requires: %{name}-filesystem
 
 %description common
@@ -47,9 +45,19 @@ order to run.
 If you are installing vim-enhanced or vim-X11, you'll also need
 to install the vim-common package.
 
+%package data
+Summary: Shared data for Vi and Vim
+BuildArch: noarch
+
+%description data
+The subpackage is used for shipping files and directories, which need to be
+shared between vim-minimal and vim-common packages.
+
 %package minimal
 Summary: A minimal version of the VIM editor
 Provides: vi = %{version}-%{release}
+# shared files between common and minimal
+Requires: %{name}-data = %{version}-%{release}
 
 %description minimal
 VIM (VIsual editor iMproved) is an updated and improved version of the
@@ -113,13 +121,15 @@ export CXXFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_
 
 sed -i 's/-l\$with_tlib/-ltinfo -l\$with_tlib/g' configure
 sed -i 's/-l\$with_tlib/-ltinfo -l\$with_tlib/g' auto/configure
+# dummy date value for reproducible builds
+export SOURCE_DATE_EPOCH="unknown"
 
 %configure --prefix=%{_prefix} --with-features=huge --enable-pythoninterp \
  --enable-perlinterp --disable-tclinterp --with-x=no \
  --enable-gui=no --exec-prefix=%{_prefix} --enable-multibyte \
- --enable-cscope --with-modified-by="<bugzilla@meego.com>" \
+ --enable-cscope \
  --with-tlib=ncurses \
- --with-compiledby="<bugzilla@meego.com>" \
+ --with-compiledby=%_vendor \
   --disable-netbeans \
   --disable-selinux \
   --disable-rubyinterp \
@@ -138,8 +148,7 @@ perl -pi -e "s/\/etc\/vimrc/\/etc\/virc/"  os_unix.h
   --disable-selinux \
   --disable-pythoninterp --disable-perlinterp --disable-tclinterp \
   --with-tlib=ncurses --enable-gui=no --disable-gpm --exec-prefix=/ \
-  --with-compiledby="<bugzilla@meego.com>" \
-  --with-modified-by="<bugzilla@meego.com>"
+  --with-compiledby=%_vendor
 
 make VIMRCLOC=/etc VIMRUNTIMEDIR=%{_datadir}/%{name}/%{vimdir} %{?_smp_mflags}
 
@@ -255,7 +264,7 @@ rm -f $RPM_BUILD_ROOT/%{_datadir}/%{name}/%{vimdir}/tutor/tutor.gr.utf-8~
 )
 
 # Remove not UTF-8 manpages
-for i in pl.ISO8859-2 it.ISO8859-1 ru.KOI8-R fr.ISO8859-1; do
+for i in pl.ISO8859-2 it.ISO8859-1 ru.KOI8-R fr.ISO8859-1 tr.ISO8859-9; do
   rm -rf $RPM_BUILD_ROOT/%{_mandir}/$i
 done
 
@@ -263,7 +272,7 @@ done
 mv $RPM_BUILD_ROOT/%{_mandir}/ru.UTF-8 $RPM_BUILD_ROOT/%{_mandir}/ru
 
 # Remove duplicate man pages
-for i in fr.UTF-8 it.UTF-8 pl.UTF-8; do
+for i in fr.UTF-8 it.UTF-8 pl.UTF-8 tr.UTF-8; do
   rm -rf $RPM_BUILD_ROOT/%{_mandir}/$i
 done
 rm -rf %{buildroot}/bin/gvimtutor
@@ -285,11 +294,6 @@ rm -rf $RPM_BUILD_ROOT
 %files common
 %defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/vimrc
-%license runtime/doc/uganda.txt
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/vimfiles/template.spec
-%dir %{_datadir}/%{name}/%{vimdir}
-%{_datadir}/%{name}/%{vimdir}/rgb.txt
 %{_datadir}/%{name}/%{vimdir}/autoload
 %{_datadir}/%{name}/%{vimdir}/colors
 %{_datadir}/%{name}/%{vimdir}/compiler
@@ -298,9 +302,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{vimdir}/ftplugin
 %{_datadir}/%{name}/%{vimdir}/indent
 %{_datadir}/%{name}/%{vimdir}/keymap
-%dir %{_datadir}/%{name}/%{vimdir}/lang
-%{_datadir}/%{name}/%{vimdir}/lang/*.vim
-%{_datadir}/%{name}/%{vimdir}/lang/*.txt
 %{_datadir}/%{name}/%{vimdir}/macros
 %{_datadir}/%{name}/%{vimdir}/plugin
 %{_datadir}/%{name}/%{vimdir}/print
@@ -311,9 +312,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{vimdir}/pack
 /%{_bindir}/xxd
 
+%files data
+%license LICENSE
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/%{vimdir}
+%{_datadir}/%{name}/%{vimdir}/defaults.vim
+%dir %{_datadir}/%{name}/vimfiles
+%{_datadir}/%{name}/vimfiles/template.spec
+
 %files minimal
 %defattr(-,root,root)
-%license runtime/doc/uganda.txt
 %config(noreplace) %{_sysconfdir}/virc
 /bin/ex
 /bin/vi
@@ -364,3 +372,4 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(ru) %{_mandir}/ru/man1/*
+%lang(tr) %{_mandir}/tr/man1/*
