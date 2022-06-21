@@ -3,7 +3,7 @@
 %define patchlevel 0000
 
 Summary: The VIM editor
-URL:     http://www.vim.org/
+URL:     https://github.com/sailfishos/vim
 Name: vim
 Version: %{baseversion}.%{patchlevel}
 Release: 1
