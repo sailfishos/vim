@@ -1,6 +1,6 @@
-%define baseversion 8.2
-%define vimdir vim82
-%define patchlevel 4127
+%define baseversion 9.0
+%define vimdir vim90
+%define patchlevel 1206
 
 Summary: The VIM editor
 URL:     https://github.com/sailfishos/vim
@@ -300,6 +300,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{vimdir}/doc
 %{_datadir}/%{name}/%{vimdir}/*.vim
 %{_datadir}/%{name}/%{vimdir}/ftplugin
+%{_datadir}/%{name}/%{vimdir}/import/dist/vimhelp.vim
 %{_datadir}/%{name}/%{vimdir}/indent
 %{_datadir}/%{name}/%{vimdir}/keymap
 %{_datadir}/%{name}/%{vimdir}/macros
@@ -356,6 +357,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/vimfiles/spell
 %dir %{_datadir}/%{name}/vimfiles/syntax
 %dir %{_datadir}/%{name}/vimfiles/tutor
+%dir %{_datadir}/%{name}/%{vimdir}/import
+%dir %{_datadir}/%{name}/%{vimdir}/import/dist
 
 %files doc
 %defattr(-,root,root)
