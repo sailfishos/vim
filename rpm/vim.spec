@@ -1,6 +1,6 @@
-%define baseversion 9.0
-%define vimdir vim90
-%define patchlevel 2167
+%define baseversion 9.1
+%define vimdir vim91
+%define patchlevel 0727
 
 Summary: The VIM editor
 URL:     https://github.com/sailfishos/vim
@@ -288,11 +288,7 @@ mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
         README*
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files common
-%defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/vimrc
 %{_datadir}/%{name}/%{vimdir}/autoload
 %{_datadir}/%{name}/%{vimdir}/colors
@@ -323,7 +319,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/vimfiles/template.spec
 
 %files minimal
-%defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/virc
 /bin/ex
 /bin/vi
@@ -332,7 +327,6 @@ rm -rf $RPM_BUILD_ROOT
 /bin/rview
 
 %files enhanced
-%defattr(-,root,root)
 %{_bindir}/vim
 %{_bindir}/rvim
 %{_bindir}/vimdiff
@@ -340,7 +334,6 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/profile.d/vim.*
 
 %files filesystem
-%defattr(-,root,root)
 %dir %{_datadir}/%{name}/vimfiles
 %dir %{_datadir}/%{name}/vimfiles/after
 %dir %{_datadir}/%{name}/vimfiles/after/*
@@ -362,7 +355,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/%{vimdir}/import/dist
 
 %files doc
-%defattr(-,root,root)
 %{_mandir}/man1/*
 %{_docdir}/%{name}-%{version}
 %lang(da) %{_mandir}/da/man1/*
