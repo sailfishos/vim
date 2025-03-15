@@ -1,7 +1,7 @@
 diff -up vim82/src/term.c.fixkeys vim82/src/term.c
 --- vim82/src/term.c.fixkeys	2021-01-08 10:12:59.191309539 +0100
 +++ vim82/src/term.c	2021-01-08 10:18:05.410470981 +0100
-@@ -500,14 +500,14 @@ static struct builtin_term builtin_termc
+@@ -501,14 +501,14 @@ static struct builtin_term builtin_termc
      {K_XRIGHT,		"\033[@;*C"},	// Esc [ C or Esc [ 1 ; C
      {K_XLEFT,		"\033[@;*D"},	// Esc [ D or Esc [ 1 ; D
      // An extra set of function keys for vt100 mode
