@@ -1,6 +1,6 @@
 %define baseversion 9.1
 %define vimdir vim91
-%define patchlevel 1206
+%define patchlevel 1765
 
 Summary: The VIM editor
 URL:     https://github.com/sailfishos/vim
