@@ -1,6 +1,6 @@
-%define baseversion 9.1
-%define vimdir vim91
-%define patchlevel 1765
+%define baseversion 9.2
+%define vimdir vim92
+%define patchlevel 0140
 
 Summary: The VIM editor
 URL:     https://github.com/sailfishos/vim
@@ -232,7 +232,7 @@ rm -f %{buildroot}/%{_datadir}/%{name}/%{vimdir}/tutor/tutor.gr.utf-8~
 )
 
 # Remove not UTF-8 manpages
-for i in pl.ISO8859-2 it.ISO8859-1 ru.KOI8-R fr.ISO8859-1 da.ISO8859-1 de.ISO8859-1 tr.ISO8859-9; do
+for i in pl.ISO8859-2 it.ISO8859-1 ru.KOI8-R fr.ISO8859-1 da.ISO8859-1 de.ISO8859-1 sv.ISO8859-1 tr.ISO8859-9; do
   rm -rf %{buildroot}/%{_mandir}/$i
 done
 
@@ -240,7 +240,7 @@ done
 mv %{buildroot}/%{_mandir}/ru.UTF-8 %{buildroot}/%{_mandir}/ru
 
 # Remove duplicate man pages
-for i in fr.UTF-8 it.UTF-8 pl.UTF-8 da.UTF-8 de.UTF-8 tr.UTF-8; do
+for i in fr.UTF-8 it.UTF-8 pl.UTF-8 da.UTF-8 de.UTF-8 sv.UTF-8 tr.UTF-8; do
   rm -rf %{buildroot}/%{_mandir}/$i
 done
 rm -rf %{buildroot}/bin/gvimtutor
@@ -339,4 +339,5 @@ rm %{buildroot}%{_datadir}/%{name}/%{vimdir}/README.txt
 %lang(ja) %{_mandir}/ja/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(ru) %{_mandir}/ru/man1/*
+%lang(sv) %{_mandir}/sv/man1/*
 %lang(tr) %{_mandir}/tr/man1/*
