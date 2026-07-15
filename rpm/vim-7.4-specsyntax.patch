@@ -1,7 +1,7 @@
 diff -up vim91/runtime/syntax/spec.vim.spec-syntax vim91/runtime/syntax/spec.vim
 --- vim91/runtime/syntax/spec.vim.spec-syntax	2025-11-14 07:38:27.000000000 +0100
 +++ vim91/runtime/syntax/spec.vim	2025-11-14 07:52:56.081212607 +0100
-@@ -38,7 +38,7 @@ syn match specNoNumberHilite 'X11\|X11R6
+@@ -38,7 +38,7 @@ syn match specNoNumberHilite 'X11\|X11R6\|[a-zA-Z]*\.\d\|[a-zA-Z][-/]\d'
  syn match specManpageFile '[a-zA-Z]\.1'
  
  "Day, Month and most used license acronyms
